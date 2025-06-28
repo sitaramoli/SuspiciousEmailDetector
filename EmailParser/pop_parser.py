@@ -1,7 +1,7 @@
 import re
 from scapy.packet import Raw
+from rich import console
 
-from main import console
 
 
 class POPParser:
