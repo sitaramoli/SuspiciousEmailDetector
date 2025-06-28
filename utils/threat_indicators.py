@@ -153,7 +153,7 @@ def _check_field(content, context):
                                             'context': context,
 
                                         })
-                                except:
+                                except Exception:
                                     continue
 
     return threats

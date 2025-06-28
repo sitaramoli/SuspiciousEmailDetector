@@ -74,16 +74,19 @@ def analyze_pcap_file(pcap_file):
                 continue
 
             try:
-                email_data = parser.parse_session(session_packets)
-                if email_data:
-                    email_data.update({
-                        'source_file': os.path.basename(pcap_file),
-                        'protocol': protocol
-                    })
-                    threats = detect_suspicious_indicators(email_data)
-                    if threats:
-                        email_data['threats'] = threats
-                        suspicious_emails.append(email_data)
+                parsed = parser.parse_session(session_packets)
+                email_list = parsed if isinstance(parsed, list) else [parsed]
+
+                for email_data in email_list:
+                    if email_data:
+                        email_data.update({
+                            'source_file': os.path.basename(pcap_file),
+                            'protocol': protocol
+                        })
+                        threats = detect_suspicious_indicators(email_data)
+                        if threats:
+                            email_data['threats'] = threats
+                            suspicious_emails.append(email_data)
             except Exception as err:
                 console.print(f"[yellow]Warning parsing {protocol} session:[/yellow] {str(err)}")
                 continue

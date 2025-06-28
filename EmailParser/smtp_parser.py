@@ -1,5 +1,5 @@
 import re
-from email.utils import parsedate_to_datetime, parseaddr, getaddresses
+from email.utils import parsedate_to_datetime, parseaddr
 
 
 class SMTPParser:
@@ -46,7 +46,7 @@ class SMTPParser:
                     if not email_data.get('headers_extracted', False):
                         self._extract_headers_from_data(email_raw, email_data)
 
-            except Exception as e:
+            except Exception:
                 continue
 
         if email_raw:
@@ -86,7 +86,7 @@ class SMTPParser:
                     }
                     email_data['attachments'].append(attachment)
 
-        except Exception as e:
+        except Exception:
             pass
 
     def _extract_headers_from_data(self, raw_data, email_data):
@@ -115,7 +115,7 @@ class SMTPParser:
 
                 email_data['headers_extracted'] = True
 
-        except Exception as e:
+        except Exception:
             pass
 
     def _extract_body(self, raw_data, email_data):
@@ -125,7 +125,7 @@ class SMTPParser:
             body_start = data_str.find('\r\n\r\n') or data_str.find('\n\n')
             if body_start > 0:
                 email_data['body'] = data_str[body_start:].strip()
-        except:
+        except Exception:
             pass
 
     def _clean_email(self, text):
@@ -141,5 +141,5 @@ class SMTPParser:
         """Standardize date format"""
         try:
             return parsedate_to_datetime(date_str).strftime('%Y-%m-%d %H:%M:%S')
-        except:
+        except Exception:
             return date_str.strip()

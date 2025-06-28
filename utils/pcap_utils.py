@@ -36,7 +36,7 @@ def extract_email_sessions(packets):
 
             sessions[key].append(p)
 
-        except Exception as e:
+        except Exception:
             continue
 
     return [{'protocol': k[4], 'packets': v} for k, v in sessions.items()]
