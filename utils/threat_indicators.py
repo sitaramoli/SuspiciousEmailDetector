@@ -6,7 +6,7 @@ INDICATORS = [
     {
         'type': 'Urgency Language',
         'patterns': [
-            re.compile(r'\b(urgent|immediate|action required|right away|asap|quick response|test)\b', re.IGNORECASE),
+            re.compile(r'\b(urgent|immediate|action required|right away|asap|quick response)\b', re.IGNORECASE),
             re.compile(r'\b(account (verification|suspended)|verify (now|immediately)|security alert)\b',
                        re.IGNORECASE),
             re.compile(r'\b(limited time offer|expiring soon|last chance|final notice)\b', re.IGNORECASE)
