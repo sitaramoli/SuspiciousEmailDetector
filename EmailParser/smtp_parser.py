@@ -3,20 +3,7 @@ from email.utils import parsedate_to_datetime, parseaddr
 
 
 class SMTPParser:
-    def __init__(self):
-        # Regex patterns for MIME attachments
-        self.mime_boundary_pattern = re.compile(r'boundary="?(.*?)"?[\s;]')
-        self.mime_header_pattern = re.compile(
-            r'Content-Type:\s*(.*?);\s*name="?(.*?)"?\s*(?:\r\n|\n)'
-            r'Content-Disposition:\s*(.*?);\s*filename="?(.*?)"?\s*(?:\r\n|\n)',
-            re.IGNORECASE
-        )
-        self.content_transfer_encoding_pattern = re.compile(
-            r'Content-Transfer-Encoding:\s*(.*?)\s*(?:\r\n|\n)',
-            re.IGNORECASE
-        )
-
-    def parse_session(self, session):
+    def parse_session(self, packets):
         email_data = {
             'to': [],
             'from': '',
@@ -28,7 +15,7 @@ class SMTPParser:
         email_raw = b""
         in_data = False
 
-        for packet in session:
+        for packet in packets:
             try:
                 if not packet.haslayer('TCP') or not packet.haslayer('Raw'):
                     continue
